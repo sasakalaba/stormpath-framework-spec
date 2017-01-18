@@ -57,7 +57,9 @@ stormpath:
     # requests.  If a requested type is not in this list, the Stormpath
     # integration should pass on the request, and allow the developer or base
     # framework to handle the response.
-    #
+    invalidRequest:
+      uri: "/invalid_request"
+
     # If the request does not specify an Accept header, or the preferred content
     # type is */*, the Stormpath integration will respond with the first type in
     # this list.
@@ -160,7 +162,19 @@ stormpath:
       enabled: null
       uri: "/verify"
       nextUri: "/login?status=verified"
+      unverifiedUri: "/login?status=unverified"
       view: "verify"
+      form:
+        fields:
+          email:
+            enabled: true
+            visible: true
+            label: "Email"
+            placeholder: "Email"
+            required: true
+            type: "email"
+        fieldOrder:
+          - "email"
 
     login:
       enabled: true
@@ -224,6 +238,17 @@ stormpath:
       uri: "/forgot"
       view: "forgot-password"
       nextUri: "/login?status=forgot"
+      form:
+        fields:
+          email:
+            enabled: true
+            visible: true
+            label: "Email"
+            placeholder: "Email"
+            required: true
+            type: "email"
+        fieldOrder:
+          - "email"
 
     # Unless changePassword.enabled is explicitly set to false, this feature
     # will be automatically enabled if the default account store for the defined
@@ -235,6 +260,25 @@ stormpath:
       nextUri: "/login?status=reset"
       view: "change-password"
       errorUri: "/forgot?status=invalid_sptoken"
+      form:
+        fields:
+          password:
+            enabled: true
+            visible: true
+            label: "Password"
+            placeholder: "Password"
+            required: true
+            type: "password"
+          confirmPassword:
+            enabled: true
+            visible: true
+            label: "Confirm Password"
+            placeholder: "Confirm Password"
+            required: true
+            type: "password"
+        fieldOrder:
+          - "password"
+          - "confirmPassword"
 
     # If idSite.enabled is true, the user should be redirected to ID site for
     # login, registration, and password reset.  They should also be redirected
