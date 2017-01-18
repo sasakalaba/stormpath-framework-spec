@@ -81,6 +81,7 @@ stormpath:
       uri: "/register"
       nextUri: "/"
       autoLogin: false
+      view: "register"
       form:
         fields:
           # This field will be shown as the only field if the user is visiting
@@ -152,7 +153,6 @@ stormpath:
           - "email"
           - "password"
           - "confirmPassword"
-      view: "register"
 
     # Unless verifyEmail.enabled is specifically set to false, the email
     # verification feature must be automatically enabled if the default account
@@ -236,8 +236,8 @@ stormpath:
     forgotPassword:
       enabled: null
       uri: "/forgot"
-      view: "forgot-password"
       nextUri: "/login?status=forgot"
+      view: "forgot-password"
       form:
         fields:
           email:
@@ -255,11 +255,11 @@ stormpath:
     # Stormpath application has the password reset workflow enabled.
     changePassword:
       enabled: null
-      autoLogin: false
       uri: "/change"
       nextUri: "/login?status=reset"
-      view: "change-password"
       errorUri: "/forgot?status=invalid_sptoken"
+      autoLogin: false
+      view: "change-password"
       form:
         fields:
           password:
@@ -332,4 +332,3 @@ stormpath:
         groups: false
         providerData: false
         tenant: false
-
