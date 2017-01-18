@@ -57,7 +57,9 @@ stormpath:
     # requests.  If a requested type is not in this list, the Stormpath
     # integration should pass on the request, and allow the developer or base
     # framework to handle the response.
-    #
+    invalidRequest:
+      uri: "/invalid_request"
+
     # If the request does not specify an Accept header, or the preferred content
     # type is */*, the Stormpath integration will respond with the first type in
     # this list.
@@ -79,6 +81,7 @@ stormpath:
       uri: "/register"
       nextUri: "/"
       autoLogin: false
+      view: "register"
       form:
         fields:
           # This field will be shown as the only field if the user is visiting
@@ -150,7 +153,6 @@ stormpath:
           - "email"
           - "password"
           - "confirmPassword"
-      view: "register"
 
     # Unless verifyEmail.enabled is specifically set to false, the email
     # verification feature must be automatically enabled if the default account
@@ -160,7 +162,19 @@ stormpath:
       enabled: null
       uri: "/verify"
       nextUri: "/login?status=verified"
+      unverifiedUri: "/login?status=unverified"
       view: "verify"
+      form:
+        fields:
+          email:
+            enabled: true
+            visible: true
+            label: "Email"
+            placeholder: "Email"
+            required: true
+            type: "email"
+        fieldOrder:
+          - "email"
 
     login:
       enabled: true
@@ -222,19 +236,49 @@ stormpath:
     forgotPassword:
       enabled: null
       uri: "/forgot"
-      view: "forgot-password"
       nextUri: "/login?status=forgot"
+      view: "forgot-password"
+      form:
+        fields:
+          email:
+            enabled: true
+            visible: true
+            label: "Email"
+            placeholder: "Email"
+            required: true
+            type: "email"
+        fieldOrder:
+          - "email"
 
     # Unless changePassword.enabled is explicitly set to false, this feature
     # will be automatically enabled if the default account store for the defined
     # Stormpath application has the password reset workflow enabled.
     changePassword:
       enabled: null
-      autoLogin: false
       uri: "/change"
       nextUri: "/login?status=reset"
-      view: "change-password"
       errorUri: "/forgot?status=invalid_sptoken"
+      autoLogin: false
+      view: "change-password"
+      form:
+        fields:
+          password:
+            enabled: true
+            visible: true
+            label: "Password"
+            placeholder: "Password"
+            required: true
+            type: "password"
+          confirmPassword:
+            enabled: true
+            visible: true
+            label: "Confirm Password"
+            placeholder: "Confirm Password"
+            required: true
+            type: "password"
+        fieldOrder:
+          - "password"
+          - "confirmPassword"
 
     # If idSite.enabled is true, the user should be redirected to ID site for
     # login, registration, and password reset.  They should also be redirected
@@ -288,4 +332,3 @@ stormpath:
         groups: false
         providerData: false
         tenant: false
-
